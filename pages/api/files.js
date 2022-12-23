@@ -1,5 +1,5 @@
 import { RESPONSE_LIMIT_DEFAULT } from "next/dist/server/api-utils";
-import { handleCloudinaryDelete, handleCloudinaryUpload, handleCloudinaryUpload, handleGetCloudinaryUploads, parseForm, } from "../../lib/files";
+import { handleCloudinaryDelete, handleCloudinaryUpload, handleGetCloudinaryUploads, parseForm, } from "../../lib/files";
 
 export const config = {
     api: { bodyParser: false, },

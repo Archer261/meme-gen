@@ -5,7 +5,7 @@ export default function Upload() {
     const handleFormSubmit = async (e) => {
         e.preventDefault();
         try {
-            const formData = newFormData(e.target);
+            const formData = new FormData(e.target);
 
             const response = await fetch("/api/files", {
                 method: "POST",
@@ -24,6 +24,8 @@ export default function Upload() {
         }
 
     };
+
+    const acceptedFileExtensions = [".jpg", ".jpeg", ".png", ".mp4"];
 
     return (
         <div>

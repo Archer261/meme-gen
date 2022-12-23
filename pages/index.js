@@ -1,4 +1,8 @@
-// pages/index.js
+import Head from 'next/head'
+import Image from 'next/image'
+import styles from '../styles/Home.module.css'
+import { useState, useEffect } from 'react';
+import Link from 'next/link';
 
 export default function Home() {
   const [resources, setResources] = useState([]);
@@ -96,7 +100,76 @@ export default function Home() {
     }
   };
 
-  return (<div>
-    {resources.length} Resources Uploaded
-  </div>);
+  return (
+    <div className="main">
+      <nav>
+        <h1>Meme Generator</h1>
+        <div>
+          <Link href="/">
+
+            Home
+
+          </Link>
+
+          <Link href="/upload">
+
+            Upload Photo/Video
+
+          </Link>
+        </div>
+      </nav>
+      {resources.length} Resources Uploaded
+      <div className="resources-wrapper">
+        {resources.map((resource, index) => {
+          const isVideo = resource.resource_type === "video";
+
+          let resourceUrl = resource.secure_url;
+
+          if (isVideo) {
+            resourceUrl = resource.secure_url.replace(".mp4", ".gif");
+          }
+
+          return (
+            <div className="resource-wrapper" key={index}>
+              <div className="resource">
+                <Image
+                  className="image"
+                  src={resourceUrl}
+                  layout="responsive"
+                  alt={resourceUrl}
+                  width={resource.width}
+                  height={resource.height}
+                ></Image>
+              </div>
+              <div className="actions">
+                <button
+                  disabled={loading}
+                  onClick={() => {
+                    handleDownloadResource(
+                      resourceUrl,
+                      resource.asset_id,
+                      isVideo ? "gif" : resource.format
+                    );
+                  }}
+                >
+                  Download
+                </button>
+                <button
+                  disabled={loading}
+                  onClick={() => {
+                    handleDeleteResource(
+                      resource.public_id,
+                      isVideo ? "video" : "image"
+                    );
+                  }}
+                >
+                  Delete
+                </button>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
 }
