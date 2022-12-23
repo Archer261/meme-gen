@@ -1,7 +1,33 @@
+
+
 export default function Upload() {
+
+    const handleFormSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            const formData = newFormData(e.target);
+
+            const response = await fetch("/api/files", {
+                method: "POST",
+                body: formData,
+            });
+
+            const data = await response.json();
+
+            if (response.status >= 200 && response.status < 300) {
+                return router.push("/");
+            }
+            throw data;
+
+        } catch (error) {
+            console.error(error);
+        }
+
+    };
+
     return (
         <div>
-            <form>
+            <form onSubmit={handleFormSubmit}>
                 <label htmlFor="file-input" />
                 <input type="file"
                     name="file"
